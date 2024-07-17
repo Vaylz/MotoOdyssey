@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+#map-container {
+    display: flex;
+    width: 90%;
+    height: 700px;
+}
+
+#map {
+    flex: 3;
+    height: 100%;
+}
+
+#sidebar {
+    flex: 1;
+    padding: 10px;
+    background: #f0f0f0;
+    border-left: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+#sidebar h2 {
+    margin-top: 0;
+}
+
+#points-list {
+    list-style: none;
+    padding: 0;
+}
+
+#points-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#points-list li button {
+    margin-left: 10px;
+}
+
+#clear-all {
+    padding: 10px 20px;
+    font-size: 16px;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificateur d'itinéraires moto</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Planificateur d'itinéraires moto</h1>
+    <div id="map-container">
+        <div id="map"></div>
+        <div id="sidebar">
+            <h2>Points de l'itinéraire</h2>
+            <ul id="points-list"></ul>
+            <p id="total-distance">Distance totale: 0 km</p>
+            <button id="clear-all">Effacer tous les points</button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
