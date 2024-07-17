@@ -13,7 +13,7 @@ h1 {
 
 #map-container {
     display: flex;
-    width: 90%;
+    width: 99%;
     height: 700px;
 }
 
@@ -53,4 +53,18 @@ h1 {
 #clear-all {
     padding: 10px 20px;
     font-size: 16px;
+}
+
+#download-gpx {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#download-gpx:hover {
+    background-color: #0056b3;
 }

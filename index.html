@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planificateur d'itinéraires moto</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <h1>Planificateur d'itinéraires moto</h1>
-    <div id="map-container">
-        <div id="map"></div>
-        <div id="sidebar">
-            <h2>Points de l'itinéraire</h2>
-            <ul id="points-list"></ul>
-            <p id="total-distance">Distance totale: 0 km</p>
-            <button id="clear-all">Effacer tous les points</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Votre Odyssey</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/Accueil/header.css" />
+    <link rel="shortcut icon" href="/Accueil/moi.jpg" />
+  </head>
+  <body>
+    <!-- Html qui s'applique au Header ------------------------------------>
+    <header>
+      <div class="container">
+        <div class="logo">
+          <img src="/Accueil/moi.jpg" alt="Logo" /> <!-- Replace with your logo image path -->
+          <div class="logo-text">MotoOdyssey</div>
         </div>
-    </div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="script.js"></script>
-</body>
+        <nav>
+          <ul>
+            <li><a href="">Accueil</a></li>
+            <li><a href="/Crea-Itin/CI.html">Créer Itinéraire</a></li>
+            <li><a href="/V-GPX/v-gpx.html">Visualiser GPX</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  </body>
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualiser GPX</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/Accueil/header.css" />
+    <link rel="stylesheet" href="/V-GPX/style-v gpx.css" />
+    <link rel="shortcut icon" href="/Accueil/moi.jpg" />
+  </head>
+  <body>
+
+    <!-- Html qui s'applique au Header ------------------------------------>
+    <header>
+      <div class="container">
+        <div class="logo">
+          <img src="/Accueil/moi.jpg" alt="Logo" />
+          <!-- Replace with your logo image path -->
+          <div class="logo-text">MotoOdyssey</div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="../index.html">Accueil</a></li>
+            <li><a href="../Crea-Itin/CI.html">Créer Itinéraire</a></li>
+            <li><a href="">Visualiser GPX</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Html qui s'applique au Visualiser le fichier GPX ------------------------------------>
+    <h1>Visualiser votre fichier GPX</h1>
+    <input type="file" id="file-input" accept=".gpx" />
+    <br>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/togeojson/0.16.0/togeojson.min.js"></script>
+    <script>
+      var map = L.map("map").setView([46.603354, 1.888334], 6);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      document
+        .getElementById("file-input")
+        .addEventListener("change", function (e) {
+          var file = e.target.files[0];
+          if (file && file.name.endsWith(".gpx")) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+              var gpxData = event.target.result;
+              var parser = new DOMParser();
+              var gpx = parser.parseFromString(gpxData, "application/xml");
+              var geojson = toGeoJSON.gpx(gpx);
+              var gpxLayer = L.geoJSON(geojson, {
+                onEachFeature: function (feature, layer) {
+                  layer.bindPopup("Point: " + feature.geometry.coordinates);
+                },
+              }).addTo(map);
+              map.fitBounds(gpxLayer.getBounds());
+            };
+            reader.readAsText(file);
+          } else {
+            alert("Please upload a valid GPX file.");
+          }
+        });
+    </script>
+  </body>
+</html>
