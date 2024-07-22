@@ -4,17 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Votre Odyssey</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="../Accueil/header.css" />
   </head>
   <body>
-
     <!-- Html qui s'applique au Header ------------------------------------>
     <header>
       <div class="container">
         <div class="logo">
-          <img src="../Accueil/moi.jpg" alt="Logo" /> <!-- Replace with your logo image path -->
+          <img src="../Accueil/moi.jpg" alt="Logo" />
+          <!-- Replace with your logo image path -->
           <div class="logo-text">MotoOdyssey</div>
         </div>
         <nav>
@@ -28,16 +29,15 @@
     </header>
 
     <!-- Html qui s'applique au Header ------------------------------------>
-    <h1>Planificateur votre itinéraires.</h1>
+    <h1>Planifier votre itinéraires.</h1>
     <div id="map-container">
       <div id="map"></div>
       <div id="sidebar">
-        <h2>Points de l'itinéraire</h2>
+        <h2>Points de l'itinéraire.</h2>
         <ul id="points-list"></ul>
         <p id="total-distance">Distance totale: 0.00 km</p>
         <button id="clear-all">Effacer tous les points</button>
-        <br><br>
-        <button id="download-gpx">Télécharger l'itinéraire (GPX)</button>
+        <button id="download-gpx">Télécharger (GPX)</button>
       </div>
     </div>
 

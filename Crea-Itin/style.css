@@ -5,16 +5,22 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #fafafa;
 }
 
 h1 {
     margin: 20px 0;
+    color: #333;
 }
 
 #map-container {
     display: flex;
     width: 99%;
-    height: 700px;
+    height: 760px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
 #map {
@@ -24,47 +30,89 @@ h1 {
 
 #sidebar {
     flex: 1;
-    padding: 10px;
-    background: #f0f0f0;
+    padding: 20px;
+    background: #ffffff;
     border-left: 1px solid #ccc;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #sidebar h2 {
     margin-top: 0;
+    color: #007bff;
 }
 
 #points-list {
     list-style: none;
     padding: 0;
+    width: 100%;
 }
 
 #points-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+#points-list li:hover {
+    background: #f1f1f1;
 }
 
 #points-list li button {
     margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#points-list li button:hover {
+    background-color: #cc0000;
+}
+
+#clear-all, #download-gpx {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    transition: background 0.3s;
 }
 
 #clear-all {
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #6c757d;
+    color: white;
+}
+
+#clear-all:hover {
+    background-color: #5a6268;
 }
 
 #download-gpx {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 10px;
     background-color: #007bff;
     color: white;
-    border: none;
-    cursor: pointer;
 }
 
 #download-gpx:hover {
     background-color: #0056b3;
+}
+
+#total-distance {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
 }

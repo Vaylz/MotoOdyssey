@@ -1,134 +1,121 @@
-// Initialiser la carte
-var map = L.map('map').setView([46.603354, 1.888334], 6); // Vue centrée sur la France
+  // Initialiser la carte
+  var map = L.map('map').setView([46.603354, 1.888334], 6); // Vue centrée sur la France
 
-// Ajouter les différents fonds de carte
-var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
+  // Ajouter les différents fonds de carte
+  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
 
-var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
-});
+  var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
+  });
 
-var mapboxSatellite = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
-    attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    id: 'mapbox/satellite-v9',
-    tileSize: 512,
-    zoomOffset: -1
-});
+  var mapboxSatellite = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      id: 'mapbox/satellite-v9',
+      tileSize: 512,
+      zoomOffset: -1
+  });
 
-var mapboxStreets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
-    attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1
-});
+  var mapboxStreets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_ACCESS_TOKEN', {
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1
+  });
 
-// Ajouter le calque OSM par défaut
-osm.addTo(map);
+  // Ajouter le calque OSM par défaut
+  osm.addTo(map);
 
-// Définir les calques de base
-var baseLayers = {
-    "OpenStreetMap": osm,
-    "Topographique": topo,
-    "Satellite": mapboxSatellite,
-    "Mapbox Streets": mapboxStreets
-};
+  // Définir les calques de base
+  var baseLayers = {
+      "OpenStreetMap": osm,
+      "Topographique": topo,
+      "Satellite": mapboxSatellite,
+  };
 
-// Ajouter un contrôle des calques
-L.control.layers(baseLayers).addTo(map);
+  // Ajouter un contrôle des calques
+  L.control.layers(baseLayers).addTo(map);
 
-var points = [];
-var markers = [];
-var polyline = L.polyline(points, {color: 'blue'}).addTo(map);
+  var points = [];
+  var markers = [];
+  var polyline = L.polyline(points, {color: 'blue'}).addTo(map);
 
-// Fonction pour calculer la distance entre deux points
-function calculateDistance(latlng1, latlng2) {
-    return map.distance(latlng1, latlng2) / 1000; // Distance en km
-}
+  // Fonction pour calculer la distance entre deux points
+  function calculateDistance(latlng1, latlng2) {
+      return map.distance(latlng1, latlng2) / 1000; // Distance en km
+  }
 
-// Fonction pour mettre à jour la distance totale
-function updateTotalDistance() {
-    var totalDistance = 0;
-    for (var i = 1; i < points.length; i++) {
-        totalDistance += calculateDistance(points[i-1], points[i]);
-    }
-    document.getElementById('total-distance').textContent = 'Distance totale: ' + totalDistance.toFixed(2) + ' km';
-}
+  // Fonction pour mettre à jour la distance totale
+  function updateTotalDistance() {
+      var totalDistance = points.reduce((total, point, index) => {
+          if (index > 0) {
+              total += calculateDistance(points[index - 1], point);
+          }
+          return total;
+      }, 0);
+      document.getElementById('total-distance').textContent = 'Distance totale: ' + totalDistance.toFixed(2) + ' km';
+  }
 
-// Ajouter un point sur la carte au clic
-map.on('click', function(e) {
-    var latlng = e.latlng;
-    points.push(latlng);
-    var marker = L.marker(latlng).addTo(map);
-    markers.push(marker);
+  // Fonction pour mettre à jour la polyline et la liste des points
+  function updateMap() {
+      polyline.setLatLngs(points);
+      updateTotalDistance();
+      updatePointsList();
+  }
 
-    var listItem = document.createElement('li');
-    listItem.textContent = 'Point ' + points.length;
-    var removeButton = document.createElement('button');
-    removeButton.textContent = 'Effacer';
-    removeButton.addEventListener('click', function() {
-        var index = markers.indexOf(marker);
-        if (index > -1) {
-            points.splice(index, 1);
-            markers.splice(index, 1);
-            map.removeLayer(marker);
-            updatePolyline();
-            updatePointsList();
-            updateTotalDistance();
-        }
-    });
-    listItem.appendChild(removeButton);
-    document.getElementById('points-list').appendChild(listItem);
+  // Mettre à jour la liste des points
+  function updatePointsList() {
+      var pointsList = document.getElementById('points-list');
+      pointsList.innerHTML = points.map((point, index) => `
+          <li>
+              Point ${index + 1} <button data-index="${index}">Effacer</button>
+          </li>
+      `).join('');
+  }
 
-    polyline.setLatLngs(points);
-    updateTotalDistance();
-});
+  // Ajouter un point sur la carte au clic
+  map.on('click', function(e) {
+      var latlng = e.latlng;
+      points.push(latlng);
 
-// Mettre à jour la polyline
-function updatePolyline() {
-    polyline.setLatLngs(points);
-}
+      var marker = L.marker(latlng)
+          .bindTooltip('Point ' + points.length)
+          .addTo(map)
+          .on('mouseover', function() { this.openTooltip(); })
+          .on('mouseout', function() { this.closeTooltip(); });
+      markers.push(marker);
 
-// Mettre à jour la liste des points
-function updatePointsList() {
-    var pointsList = document.getElementById('points-list');
-    pointsList.innerHTML = '';
-    markers.forEach(function(marker, index) {
-        var listItem = document.createElement('li');
-        listItem.textContent = 'Point ' + (index + 1);
-        var removeButton = document.createElement('button');
-        removeButton.textContent = 'Effacer';
-        removeButton.addEventListener('click', function() {
-            points.splice(index, 1);
-            markers.splice(index, 1);
-            map.removeLayer(marker);
-            updatePolyline();
-            updatePointsList();
-            updateTotalDistance();
-        });
-        listItem.appendChild(removeButton);
-        pointsList.appendChild(listItem);
-    });
-}
+      if (points.length === 1) {
+          marker.on('click', function() {
+              if (points.length > 1) {
+                  points.push(points[0]); // Fermer l'itinéraire en reliant le dernier point au premier point
+                  updateMap();
+              }
+          });
+      }
 
-// Effacer tous les points et l'itinéraire
-document.getElementById('clear-all').addEventListener('click', function() {
-    points = [];
-    markers.forEach(function(marker) {
-        map.removeLayer(marker);
-    });
-    markers = [];
-    polyline.setLatLngs(points);
-    updatePointsList();
-    updateTotalDistance();
-});
+      updateMap();
+  });
 
+  // Gérer la suppression d'un point
+  document.getElementById('points-list').addEventListener('click', function(e) {
+      if (e.target.tagName === 'BUTTON') {
+          var index = e.target.getAttribute('data-index');
+          points.splice(index, 1);
+          map.removeLayer(markers[index]);
+          markers.splice(index, 1);
+          updateMap();
+      }
+  });
 
-
-
-
-
+  // Effacer tous les points et l'itinéraire
+  document.getElementById('clear-all').addEventListener('click', function() {
+      points = [];
+      markers.forEach(marker => map.removeLayer(marker));
+      markers = [];
+      updateMap();
+  });
 
 // Fonction pour créer le contenu du fichier GPX
 function generateGPX(points) {
